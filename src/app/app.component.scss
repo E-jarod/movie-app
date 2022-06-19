@@ -1,0 +1,4 @@
+// allow to style easily (width, height) in each plugged component
+::ng-deep main > router-outlet + * {
+  @apply grow flex flex-col;
+}
