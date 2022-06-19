@@ -10,7 +10,7 @@
           "style": "scss",
           "viewEncapsulation": "ShadowDom",
           "changeDetection": "OnPush",
-          "inlineStyle": false,
+          "inlineStyle": true,
           "inlineTemplate": false
         }
       },
