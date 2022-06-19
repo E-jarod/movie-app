@@ -4,6 +4,30 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+
+    "incremental": true,
+    "noErrorTruncation": true,
+    "pretty": true,
+    "noUnusedParameters": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noStrictGenericChecks": false,
+    "noUnusedLocals": false,
+    "removeComments": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "allowSyntheticDefaultImports": false,
+    "importsNotUsedAsValues": "error",
+    "exactOptionalPropertyTypes": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
+    "keyofStringsOnly": false,
+    "noImplicitUseStrict": false,
+    "alwaysStrict": true,
+    "useUnknownInCatchVariables": true,
+
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -18,10 +42,12 @@
     "importHelpers": true,
     "target": "es2020",
     "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ]
+    "lib": ["ESNext", "dom"],
+    "paths": {
+      "@shared-utils": ["src/app/shared/utils"],
+      "@shared-components": ["src/app/shared/components"],
+      "@shared-services": ["src/app/shared/services"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
