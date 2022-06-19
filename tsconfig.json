@@ -44,9 +44,7 @@
     "module": "es2020",
     "lib": ["ESNext", "dom"],
     "paths": {
-      "@shared-utils": ["src/app/shared/utils"],
-      "@shared-components": ["src/app/shared/components"],
-      "@shared-services": ["src/app/shared/services"]
+      "@shared/*": ["src/app/shared/*"]
     }
   },
   "angularCompilerOptions": {
