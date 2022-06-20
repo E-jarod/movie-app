@@ -1,0 +1,72 @@
+<section
+  class="flex justify-between text-xs text-center bg-white rounded-lg shadow-md shadow-slate-200"
+>
+  <div class="relative flex flex-col justify-between w-4/5 px-6">
+    <button class="absolute top-0 right-0 p-3 text-xs">Edit</button>
+    <div class="mt-8">
+      <h2
+        class="mb-2 text-lg font-bold text-left"
+        [innerText]="movie.primaryTitle"
+      ></h2>
+      <h3 class="text-left">
+        <span class="p-2 mr-2 text-xs rounded-md bg-sky-50 text-sky-800"
+          >original title</span
+        >
+        <span
+          class="text-xs font-semibold leading-6 text-slate-500"
+          [innerText]="movie.originalTitle"
+        ></span>
+      </h3>
+      <div class="flex justify-around mt-4">
+        <span class="inline-flex flex-col font-semibold">
+          <span class="uppercase text-slate-500">id</span>
+          <strong
+            class="text-xl font-extrabold"
+            [innerText]="movie.tconst"
+          ></strong>
+        </span>
+        <span class="inline-flex flex-col font-semibold">
+          <span class="uppercase text-slate-500">year</span>
+          <strong
+            class="text-xl font-extrabold"
+            [innerText]="movieDateRange"
+          ></strong>
+        </span>
+        <span class="inline-flex flex-col font-semibold">
+          <span class="uppercase text-slate-500">min</span>
+          <strong
+            class="text-xl font-extrabold"
+            [innerText]="movie.runtimeMinutes"
+          ></strong>
+        </span>
+      </div>
+      <div class="flex items-center justify-between mt-6 mb-6">
+        <img
+          class="block w-6 h-6 shrink"
+          [src]="
+            movie.isAdult ? 'assets/plus-18.svg' : 'assets/family.svg'
+          "
+          alt="is for adult icon"
+        />
+
+        <div class="flex flex-row-reverse grow">
+          <span
+            *ngFor="let genre of movie.genres"
+            class="p-2 mr-2 text-xs font-bold text-yellow-800 rounded-md bg-amber-50"
+            [innerText]="genre | lowercase"
+          ></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="flex items-center justify-center w-1/5 rounded-r-lg bg-slate-200"
+  >
+    <img
+      class="inline-block max-w-full max-h-full"
+      src="assets/film.svg"
+      alt="film poster"
+    />
+  </div>
+</section>

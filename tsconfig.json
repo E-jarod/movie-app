@@ -27,6 +27,7 @@
     "noImplicitUseStrict": false,
     "alwaysStrict": true,
     "useUnknownInCatchVariables": true,
+    "resolveJsonModule": true,
 
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -41,7 +42,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2020",
-    "module": "es2020",
+    "module": "ESNext",
     "lib": ["ESNext", "dom"],
     "paths": {
       "@shared/*": ["src/app/shared/*"]
