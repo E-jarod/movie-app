@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
-import { type ExtraOptions, RouterModule, type Routes } from '@angular/router';
+import {
+  type ExtraOptions,
+  RouterModule,
+  type Routes,
+} from '@angular/router';
 
 const routes: Routes = [
   {
@@ -9,7 +13,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    loadChildren: () =>
+      import('./home/home.module').then((m) => m.HomeModule),
   },
   {
     path: 'search',

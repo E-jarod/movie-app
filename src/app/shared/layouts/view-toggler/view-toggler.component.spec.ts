@@ -8,9 +8,8 @@ describe('ViewTogglerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewTogglerComponent ]
-    })
-    .compileComponents();
+      declarations: [ViewTogglerComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ViewTogglerComponent);
     component = fixture.componentInstance;
