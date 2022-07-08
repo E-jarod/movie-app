@@ -1,1 +1,29 @@
-<p>search works!</p>
+<article class="flex flex-col p-6 grow">
+  <header class="flex items-center justify-between">
+    <h1 class="text-base font-bold">Movie list</h1>
+    <button
+      class="p-3 text-xs font-bold uppercase bg-yellow-200 rounded-md"
+      (click)="toggleViewMode()"
+      [innerText]="viewMode"
+    ></button>
+  </header>
+
+  <mat-paginator
+    [pageIndex]="zeroBasedCurrentPage"
+    [length]="numberOfMovies"
+    [pageSize]="numberOfItems"
+    [pageSizeOptions]="numberOfItemsOptions"
+    (page)="updateList($event)"
+  ></mat-paginator>
+
+  <section class="mt-6">
+    <imdb-list-view
+      *ngIf="isList"
+      [movies]="movies"
+    ></imdb-list-view>
+    <imdb-thumbnail-view
+      *ngIf="!isList"
+      [movies]="movies"
+    ></imdb-thumbnail-view>
+  </section>
+</article>

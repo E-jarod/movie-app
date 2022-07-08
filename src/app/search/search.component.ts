@@ -1,8 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  type OnInit,
-} from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import type { PageEvent } from '@angular/material/paginator';
+
+import type { IMovie } from '@shared/models/movie';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { SearchService } from '@shared/services/search/search.service';
+
+import { jsonArray } from './data';
+
+type SearchViewMode = 'list' | 'thumbnail';
+type NumberOfItemsOptions = 5 | 10 | 20 | 30 | 50;
 
 @Component({
   selector: 'imdb-search',
@@ -11,5 +18,72 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent implements OnInit {
-  ngOnInit(): void {}
+  zeroBasedCurrentPage = 0;
+  // searchText = '';
+  viewMode: SearchViewMode = 'list';
+  numberOfItems: NumberOfItemsOptions = 10;
+  numberOfItemsOptions: NumberOfItemsOptions[] = [5, 10, 20, 30, 50];
+
+  private readonly _allMovies: IMovie[] = jsonArray.map((movie) => ({
+    ...movie,
+    titleType: movie.titleType as 'short' | 'movie',
+    isAdult: movie.isAdult === '0' ? false : true,
+    runtimeMinutes: parseInt(movie.runtimeMinutes),
+    genres: movie.genres.split(','),
+  }));
+
+  movies: IMovie[] = [];
+
+  get isList(): boolean {
+    return this.viewMode === 'list';
+  }
+
+  get numberOfMovies(): number {
+    return this._allMovies.length;
+  }
+
+  constructor(private readonly _searchService: SearchService) {}
+
+  ngOnInit(): void {
+    if (this._allMovies?.length) {
+      this.updateList({
+        pageIndex: this.zeroBasedCurrentPage,
+        pageSize: this.numberOfItems,
+        length: this.numberOfMovies,
+      });
+    }
+  }
+
+  toggleViewMode(): void {
+    const isList = this.viewMode === 'list';
+    this.viewMode = isList ? 'thumbnail' : 'list';
+  }
+
+  updateList(newPageEvent: PageEvent): void {
+    this.updateCurrentPage(newPageEvent.pageIndex);
+    this.updateNumberOfItems(
+      newPageEvent.pageSize as NumberOfItemsOptions,
+    );
+    this.updateMovies();
+  }
+
+  updateCurrentPage(currentPage: number): void {
+    this.zeroBasedCurrentPage = currentPage;
+  }
+
+  updateNumberOfItems(currentPage: NumberOfItemsOptions): void {
+    this.numberOfItems = currentPage;
+  }
+
+  updateMovies(): void {
+    const start = this.zeroBasedCurrentPage * this.numberOfItems;
+    const end = start + this.numberOfItems;
+    const paginatedMovies = this._allMovies
+      .filter((movie) =>
+        movie.primaryTitle.includes(this._searchService.searchText),
+      )
+      .slice(start, end);
+
+    this.movies = paginatedMovies;
+  }
 }
