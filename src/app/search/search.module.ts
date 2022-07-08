@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { LayoutsModule } from '@shared/layouts/layouts.module';
 
@@ -9,17 +10,20 @@ import { ListViewComponent } from './list-view/list-view.component';
 import { ThumbnailViewComponent } from './thumbnail-view/thumbnail-view.component';
 import { ThumbnailItemComponent } from './thumbnail-item/thumbnail-item.component';
 import { ListItemComponent } from './list-item/list-item.component';
-import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
-  imports: [CommonModule, SearchRoutingModule, LayoutsModule],
+  imports: [
+    CommonModule,
+    SearchRoutingModule,
+    LayoutsModule,
+    MatPaginatorModule,
+  ],
   declarations: [
     SearchComponent,
     ListViewComponent,
     ThumbnailViewComponent,
     ThumbnailItemComponent,
     ListItemComponent,
-    PaginationComponent,
   ],
 })
 export class SearchModule {}

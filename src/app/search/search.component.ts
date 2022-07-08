@@ -1,10 +1,13 @@
+import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { jsonArray } from './data';
 
 import type { IMovie } from '@shared/models/movie';
+import type { PageEvent } from '@angular/material/paginator';
 
 type SearchViewMode = 'list' | 'thumbnail';
+type NumberOfItemsOptions = 5 | 10 | 20 | 30 | 50;
 
 @Component({
   selector: 'imdb-search',
@@ -12,52 +15,66 @@ type SearchViewMode = 'list' | 'thumbnail';
   styleUrls: ['./search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
+  zeroBasedCurrentPage = 0;
   viewMode: SearchViewMode = 'list';
+  numberOfItems: NumberOfItemsOptions = 10;
+  numberOfItemsOptions: NumberOfItemsOptions[] = [5, 10, 20, 30, 50];
 
-  // readonly movies: IMovie[] = [
-  //   {
-  //     tconst: 'tt0000001',
-  //     titleType: 'short',
-  //     primaryTitle: 'Carmencita',
-  //     originalTitle: 'Carmencita',
-  //     isAdult: false,
-  //     startYear: '1894',
-  //     endYear: '\\N',
-  //     runtimeMinutes: 1,
-  //     genres: ['Documentary', 'Short'],
-  //   },
-  //   {
-  //     tconst: 'tt0000013',
-  //     titleType: 'short',
-  //     primaryTitle: 'The Photographical Congress Arrives in Lyon',
-  //     originalTitle: 'Le débarquement du congrès de photographie à Lyon',
-  //     isAdult: false,
-  //     startYear: '1895',
-  //     endYear: '\\N',
-  //     runtimeMinutes: 1,
-  //     genres: ['Documentary', 'Short'],
-  //   },
-  // ];
-
-  readonly movies: IMovie[] = jsonArray.map((e) => ({
-    ...e,
-    titleType: e.titleType as 'short' | 'movie',
-    isAdult: e.isAdult === '0' ? false : true,
-    runtimeMinutes: parseInt(e.runtimeMinutes),
-    genres: e.genres.split(','),
+  private readonly _allMovies: IMovie[] = jsonArray.map((movie) => ({
+    ...movie,
+    titleType: movie.titleType as 'short' | 'movie',
+    isAdult: movie.isAdult === '0' ? false : true,
+    runtimeMinutes: parseInt(movie.runtimeMinutes),
+    genres: movie.genres.split(','),
   }));
+
+  movies: IMovie[] = [];
 
   get isList(): boolean {
     return this.viewMode === 'list';
   }
 
   get numberOfMovies(): number {
-    return this.movies.length;
+    return this._allMovies.length;
+  }
+
+  ngOnInit(): void {
+    if (this._allMovies?.length) {
+      this.updateList({
+        pageIndex: this.zeroBasedCurrentPage,
+        pageSize: this.numberOfItems,
+        length: this.numberOfMovies,
+      });
+    }
   }
 
   toggleViewMode(): void {
     const isList = this.viewMode === 'list';
     this.viewMode = isList ? 'thumbnail' : 'list';
+  }
+
+  updateList(newPageEvent: PageEvent): void {
+    this.updateCurrentPage(newPageEvent.pageIndex);
+    this.updateNumberOfItems(
+      newPageEvent.pageSize as NumberOfItemsOptions,
+    );
+    this.updateMovies();
+  }
+
+  updateCurrentPage(currentPage: number): void {
+    this.zeroBasedCurrentPage = currentPage;
+  }
+
+  updateNumberOfItems(currentPage: NumberOfItemsOptions): void {
+    this.numberOfItems = currentPage;
+  }
+
+  updateMovies(): void {
+    const start = this.zeroBasedCurrentPage * this.numberOfItems;
+    const end = start + this.numberOfItems;
+    const paginatedMovies = this._allMovies.slice(start, end);
+
+    this.movies = paginatedMovies;
   }
 }

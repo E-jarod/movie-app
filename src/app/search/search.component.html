@@ -8,11 +8,13 @@
     ></button>
   </header>
 
-  <imdb-pagination
-    [currentPage]="2"
-    [max]="numberOfMovies"
-    [maxPages]="5"
-  ></imdb-pagination>
+  <mat-paginator
+    [pageIndex]="zeroBasedCurrentPage"
+    [length]="numberOfMovies"
+    [pageSize]="numberOfItems"
+    [pageSizeOptions]="numberOfItemsOptions"
+    (page)="updateList($event)"
+  ></mat-paginator>
 
   <section class="mt-6">
     <imdb-list-view
