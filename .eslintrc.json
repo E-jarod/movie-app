@@ -43,6 +43,12 @@
           {
             "selector": "variable",
             "format": ["camelCase", "UPPER_CASE"]
+          },
+          {
+            "selector": "parameter",
+            "modifiers": ["unused"],
+            "leadingUnderscore": "require",
+            "format": ["camelCase"]
           }
         ],
         "prettier/prettier": 2,

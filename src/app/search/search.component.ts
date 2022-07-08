@@ -52,7 +52,12 @@ export class SearchComponent {
     return this.viewMode === 'list';
   }
 
+  get numberOfMovies(): number {
+    return this.movies.length;
+  }
+
   toggleViewMode(): void {
-    this.viewMode = this.viewMode === 'list' ? 'thumbnail' : 'list';
+    const isList = this.viewMode === 'list';
+    this.viewMode = isList ? 'thumbnail' : 'list';
   }
 }

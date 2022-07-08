@@ -8,6 +8,12 @@
     ></button>
   </header>
 
+  <imdb-pagination
+    [currentPage]="2"
+    [max]="numberOfMovies"
+    [maxPages]="5"
+  ></imdb-pagination>
+
   <section class="mt-6">
     <imdb-list-view
       *ngIf="isList"
