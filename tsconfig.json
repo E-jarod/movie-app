@@ -17,7 +17,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "allowSyntheticDefaultImports": false,
-    "importsNotUsedAsValues": "error",
+    "importsNotUsedAsValues": "preserve",
     "exactOptionalPropertyTypes": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,

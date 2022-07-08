@@ -1,10 +1,12 @@
 import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-import { jsonArray } from './data';
+import type { PageEvent } from '@angular/material/paginator';
 
 import type { IMovie } from '@shared/models/movie';
-import type { PageEvent } from '@angular/material/paginator';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { SearchService } from '@shared/services/search/search.service';
+
+import { jsonArray } from './data';
 
 type SearchViewMode = 'list' | 'thumbnail';
 type NumberOfItemsOptions = 5 | 10 | 20 | 30 | 50;
@@ -17,6 +19,7 @@ type NumberOfItemsOptions = 5 | 10 | 20 | 30 | 50;
 })
 export class SearchComponent implements OnInit {
   zeroBasedCurrentPage = 0;
+  // searchText = '';
   viewMode: SearchViewMode = 'list';
   numberOfItems: NumberOfItemsOptions = 10;
   numberOfItemsOptions: NumberOfItemsOptions[] = [5, 10, 20, 30, 50];
@@ -38,6 +41,8 @@ export class SearchComponent implements OnInit {
   get numberOfMovies(): number {
     return this._allMovies.length;
   }
+
+  constructor(private readonly _searchService: SearchService) {}
 
   ngOnInit(): void {
     if (this._allMovies?.length) {
@@ -73,7 +78,11 @@ export class SearchComponent implements OnInit {
   updateMovies(): void {
     const start = this.zeroBasedCurrentPage * this.numberOfItems;
     const end = start + this.numberOfItems;
-    const paginatedMovies = this._allMovies.slice(start, end);
+    const paginatedMovies = this._allMovies
+      .filter((movie) =>
+        movie.primaryTitle.includes(this._searchService.searchText),
+      )
+      .slice(start, end);
 
     this.movies = paginatedMovies;
   }

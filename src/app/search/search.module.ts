@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { LayoutsModule } from '@shared/layouts/layouts.module';
+import { SearchService } from '@shared/services/search/search.service';
 
 import { SearchRoutingModule } from './search-routing.module';
 import { SearchComponent } from './search.component';
@@ -25,5 +26,6 @@ import { ListItemComponent } from './list-item/list-item.component';
     ThumbnailItemComponent,
     ListItemComponent,
   ],
+  providers: [SearchService],
 })
 export class SearchModule {}
